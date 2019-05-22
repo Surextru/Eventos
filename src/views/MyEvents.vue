@@ -19,7 +19,7 @@
                     <div>
                       <div class="headline">Supermodel</div>
                       <div>Foster the People</div>
-                      <div>(2014)</div>
+                      <div></div>
                     </div>
                   </v-card-title>
                 </v-flex>

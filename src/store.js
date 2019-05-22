@@ -7,7 +7,8 @@ export default new Vuex.Store({
   state: {
     artist: null,
     event: null,
-    search: ""
+    search: "",
+    idEvent: null
   },
   getters: {
     getArtist(state) {
@@ -18,6 +19,9 @@ export default new Vuex.Store({
     },
     getSearch(state) {
       return state.search;
+    },
+    getIdEvent(state) {
+      return state.idEvent;
     }
   },
   mutations: {
@@ -29,6 +33,9 @@ export default new Vuex.Store({
     },
     setSearch(state, payload) {
       state.search = payload
+    },
+    setIdEvent(state, payload) {
+      state.idEvent = payload
     }
   },
   actions: {
@@ -37,7 +44,6 @@ export default new Vuex.Store({
         .then(res => res.json())
         .then(data => {
           context.commit("setArtist", data);
-          console.log(context.getters.getArtist);
         })
         .catch(error => { console.log(error) })
     },
@@ -46,7 +52,6 @@ export default new Vuex.Store({
         .then(res => res.json())
         .then(data => {
           context.commit("setEvent", data);
-          console.log(context.getters.getEvent);
 
         })
         .catch(error => { console.log(error) })

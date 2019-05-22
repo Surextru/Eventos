@@ -7,11 +7,17 @@
             <v-flex xs12>
               <v-card color="blue-grey darken-2" class="white--text">
                 <v-card-title primary-title>
-                  <div>
+                  <div center>
                     <div class="headline">
-                      <input v-model="search" type="text" id="text" placeholder="Search for music">
+                      <input
+                        class="white"
+                        v-model="search"
+                        type="text"
+                        id="text"
+                        placeholder="Search for music"
+                      >
+                      <button v-on:click="searchArtist" xs12 offset-xs5 md2 lg5>Search</button>
                     </div>
-                    <button v-on:click="searchArtist" xs12 offset-xs5 md2 lg5>Search</button>
                   </div>
                 </v-card-title>
                 <v-card-actions>
@@ -20,7 +26,7 @@
               </v-card>
             </v-flex>
 
-            <v-flex xs12 v-for="evento in events" :key="evento.id">
+            <v-flex xs12 v-for="evento in events" :key="evento.id" @click="sendtoStore(evento.id)">
               <v-card to="/single_event" color="cyan darken-2" class="white--text">
                 <v-layout>
                   <v-flex xs5>
@@ -53,7 +59,8 @@
 export default {
   data() {
     return {
-      search: ""
+      search: "",
+      id: null
     };
   },
   methods: {
@@ -61,6 +68,10 @@ export default {
       this.$store.commit("setSearch", this.search);
       this.$store.dispatch("getArtistData");
       this.$store.dispatch("getEventData");
+    },
+    sendtoStore(id) {
+      this.id = id;
+      this.$store.commit("setIdEvent", this.id);
     }
   },
   computed: {

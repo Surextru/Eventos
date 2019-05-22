@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-toolbar app dark>
+    <v-toolbar app dark class="toolbar">
       <v-toolbar-side-icon class="grey--text" @click="drawerOut = !drawerOut">si</v-toolbar-side-icon>
       <v-toolbar-side-icon class="grey--text" @click="drawerIn = !drawerIn">no</v-toolbar-side-icon>
       <v-toolbar-title class="headline text-uppercase">
@@ -71,7 +71,7 @@
       </v-layout>
     </v-navigation-drawer>
 
-    <router-view></router-view>
+    <router-view class="padding"></router-view>
   </v-app>
 </template>
 
@@ -112,5 +112,8 @@ export default {
 <style>
 .blue-grey darken-2 {
   color: white;
+}
+.padding {
+  margin-top: 2.5%;
 }
 </style>
