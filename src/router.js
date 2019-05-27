@@ -20,9 +20,10 @@ export default new Router({
       component: Home
     },
     {
-      path: "/single_event",
+      path: "/single_event/:artist/:id",
       name: "single event",
-      component: SingleEvent
+      component: SingleEvent,
+      props: true
     },
     {
       path: "/log_in",

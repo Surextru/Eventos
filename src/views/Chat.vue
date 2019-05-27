@@ -1,5 +1,11 @@
 <template>
-  <p>chat</p>
+  <v-container>
+    <v-layout>
+      <v-flex>
+        <p>chat</p>
+      </v-flex>
+    </v-layout>
+  </v-container>
 </template>
 
 <script>

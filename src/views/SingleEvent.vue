@@ -1,47 +1,73 @@
-<template class="purple lighten-2">
-  <div>
-    <v-layout row class="purple lighten-2">
-      <v-flex xs12 sm6 offset-sm3 class="purple lighten-2">
-        <v-card>
-          <v-img src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg" height="200px"></v-img>
+<template>
+  <v-container>
+    <v-layout v-if="!events">
+      <button>{{id}} {{artist}}</button>
+    </v-layout>
 
-          <v-card-title primary-title>
-            <div>
-              <div class="headline">caca</div>
-              <span class="grey--text">1,000 miles of wonder</span>
-            </div>
-          </v-card-title>
-
-          <v-card-actions>
-            <v-btn flat>Share</v-btn>
-            <v-btn flat color="purple">Explore</v-btn>
-            <v-spacer></v-spacer>
-          </v-card-actions>
+    <v-layout v-if="events" mt-4>
+      <v-flex>
+        <v-card class="purple lighten-1 white--text">
+          <v-layout class="primary" justify-center>
+            <v-flex xs12>
+              <img :src="artistC.thumb_url" alt="fotaca">
+            </v-flex>
+          </v-layout>
+          <v-card-title>{{artist}}</v-card-title>
+          <v-card-text>
+            <p>{{eventsC.datetime}}</p>
+            <p>{{eventsC.venue.city}}, {{eventsC.venue.country}}</p>
+            <p class="text-uppercase">{{eventsC.offers[0].status}}</p>
+            <a :href="eventsC.offers[0].url">{{eventsC.offers[0].type}}</a>
+            <p></p>
+          </v-card-text>
         </v-card>
       </v-flex>
     </v-layout>
-  </div>
+  </v-container>
 </template>
 
 <script>
 export default {
+  props: ["id", "artist"],
   data() {
     return {
-      id: null,
-      event: null
+      event: false,
+      mensaje: "Sin resultado"
     };
   },
   methods: {
     selectData() {
-      this.id = this.$store.getters.getIdEvent;
-      this.event = this.$store.getters.getEvent;
-      console.log(this.id);
-      console.log(this.event);
-    },
-    searchID() {}
+      console.log(this.artist);
+      console.log(this.eventsC);
+      console.log(this.idC);
+    }
   },
-  created() {
-    this.selectData();
+  async created() {
+    await this.$store.commit("setSearch", this.artist);
+    await this.$store.commit("setIdEvent", this.id);
+    await this.$store.dispatch("getEventData");
+    await this.$store.dispatch("getArtistData");
+    await this.$store.getters.getEvent.find(e => e.id == this.id);
+    await this.selectData();
+  },
+  computed: {
+    idC() {
+      return this.$store.getters.getIdEvent;
+    },
+    events() {
+      return this.$store.getters.getEvent;
+    },
+    eventsC() {
+      return this.$store.getters.getEvent.find(e => e.id == this.id);
+    },
+    artistC() {
+      return this.$store.getters.getArtist;
+    }
   }
 };
 </script>
+
+<style>
+/* .tiket_state {
+} */
+</style>

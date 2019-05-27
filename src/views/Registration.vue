@@ -1,25 +1,29 @@
 <template>
-  <v-card>
-    <v-form ref="form" v-model="valid" lazy-validation>
-      <v-text-field v-model="name" :counter="10" :rules="nameRules" label="Name" required></v-text-field>
+  <v-container>
+    <v-layout>
+      <v-card>
+        <v-form ref="form" v-model="valid" lazy-validation>
+          <v-text-field v-model="name" :counter="10" :rules="nameRules" label="Name" required></v-text-field>
 
-      <v-text-field v-model="email" :rules="emailRules" label="E-mail" required></v-text-field>
+          <v-text-field v-model="email" :rules="emailRules" label="E-mail" required></v-text-field>
 
-      <v-text-field
-        type="password"
-        v-model="password"
-        :rules="passwordRules"
-        label="Password"
-        required
-      ></v-text-field>
+          <v-text-field
+            type="password"
+            v-model="password"
+            :rules="passwordRules"
+            label="Password"
+            required
+          ></v-text-field>
 
-      <v-btn :disabled="!valid" color="success" @click="validate">Validate</v-btn>
+          <v-btn :disabled="!valid" color="success" @click="validate">Validate</v-btn>
 
-      <v-btn color="error" @click="reset">Reset Form</v-btn>
+          <v-btn color="error" @click="reset">Reset Form</v-btn>
 
-      <v-btn color="warning" @click="resetValidation">Reset Validation</v-btn>
-    </v-form>
-  </v-card>
+          <v-btn color="warning" @click="resetValidation">Reset Validation</v-btn>
+        </v-form>
+      </v-card>
+    </v-layout>
+  </v-container>
 </template>
 
 
