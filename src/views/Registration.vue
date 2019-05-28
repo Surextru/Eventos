@@ -1,27 +1,45 @@
 <template>
-  <v-container>
-    <v-layout>
-      <v-card>
-        <v-form ref="form" v-model="valid" lazy-validation>
-          <v-text-field v-model="name" :counter="10" :rules="nameRules" label="Name" required></v-text-field>
+  <v-container xs6>
+    <v-layout justify-center>
+      <v-flex>
+        <v-card>
+          <!-- registrarse por cuenta propia  -->
+          <v-layout justify-center xs6>
+            <v-form ref="form" v-model="valid" lazy-validation>
+              <v-text-field
+                v-model="name"
+                :counter="10"
+                :rules="nameRules"
+                label="Username"
+                required
+              ></v-text-field>
 
-          <v-text-field v-model="email" :rules="emailRules" label="E-mail" required></v-text-field>
+              <v-text-field v-model="email" :rules="emailRules" label="E-mail" required></v-text-field>
 
-          <v-text-field
-            type="password"
-            v-model="password"
-            :rules="passwordRules"
-            label="Password"
-            required
-          ></v-text-field>
+              <v-text-field
+                type="password"
+                v-model="password"
+                :rules="passwordRules"
+                label="Password"
+                required
+              ></v-text-field>
 
-          <v-btn :disabled="!valid" color="success" @click="validate">Validate</v-btn>
+              <v-layout>
+                <v-btn :disabled="!valid" color="success" @click="validate">Validate</v-btn>
 
-          <v-btn color="error" @click="reset">Reset Form</v-btn>
-
-          <v-btn color="warning" @click="resetValidation">Reset Validation</v-btn>
-        </v-form>
-      </v-card>
+                <v-btn color="error" @click="reset">Reset Form</v-btn>
+              </v-layout>
+              <v-layout>
+                <v-btn color="warning" @click="resetValidation">Reset Validation</v-btn>
+              </v-layout>
+            </v-form>
+          </v-layout>
+          <!-- registrarse por google -->
+          <v-layout justify-center>
+            <v-btn>Google Registration</v-btn>
+          </v-layout>
+        </v-card>
+      </v-flex>
     </v-layout>
   </v-container>
 </template>
@@ -45,7 +63,7 @@ export default {
     password: "",
     passwordRules: [
       v => !!v || "Password is required",
-      v => /.+@.+/.test(v) || "Password must be valid"
+      v => (v && v.length >= 5) || "Password must be valid"
     ],
     select: null
   }),
@@ -54,6 +72,8 @@ export default {
     validate() {
       if (this.$refs.form.validate()) {
         this.snackbar = true;
+        this.$store.commit("setUsername", this.name);
+        this.$store.commit("setEmail", this.email);
       }
     },
     reset() {

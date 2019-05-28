@@ -7,18 +7,20 @@
     <v-layout v-if="events" mt-4>
       <v-flex>
         <v-card class="purple lighten-1 white--text">
-          <v-layout class="primary" justify-center>
-            <v-flex xs12>
-              <img :src="artistC.thumb_url" alt="fotaca">
-            </v-flex>
+          <v-layout justify-center pt-4>
+            <img :src="artistC.thumb_url" alt="fotaca">
           </v-layout>
-          <v-card-title>{{artist}}</v-card-title>
+          <v-card-title class="display-3">{{artist}}</v-card-title>
           <v-card-text>
             <p>{{eventsC.datetime}}</p>
             <p>{{eventsC.venue.city}}, {{eventsC.venue.country}}</p>
-            <p class="text-uppercase">{{eventsC.offers[0].status}}</p>
-            <a :href="eventsC.offers[0].url">{{eventsC.offers[0].type}}</a>
-            <p></p>
+            <p class="text-uppercase">
+              {{eventsC.offers[0].status}} :
+              <a
+                class="orange--text"
+                :href="eventsC.offers[0].url"
+              >{{eventsC.offers[0].type}}</a>
+            </p>
           </v-card-text>
         </v-card>
       </v-flex>

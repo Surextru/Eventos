@@ -9,7 +9,8 @@ export default new Vuex.Store({
     event: null,
     search: "",
     idEvent: null,
-    loading: false
+    username: "",
+    email: "",
   },
   getters: {
     getArtist(state) {
@@ -26,6 +27,12 @@ export default new Vuex.Store({
     },
     getLoading(state) {
       return state.loading
+    },
+    getUsername(state) {
+      return state.username
+    },
+    getEmail(state) {
+      return state.email
     }
   },
   mutations: {
@@ -40,18 +47,20 @@ export default new Vuex.Store({
     },
     setIdEvent(state, payload) {
       state.idEvent = payload
+    },
+    setUsername(state, payload) {
+      state.username = payload
+    },
+    setEmail(state, payload) {
+      state.email = payload
     }
   },
   actions: {
     getArtistData(context) {
-      context.state.loading = true;
       fetch("https://rest.bandsintown.com/artists/" + context.getters.getSearch + "?app_id=f711a497d2b27b1b9bc0626c3c6737cc")
         .then(res => res.json())
         .then(data => {
           context.commit("setArtist", data);
-          console.log(context.state.artist);
-
-          context.state.loading = false;
         })
         .catch(error => { console.log(error) })
     },
@@ -60,7 +69,6 @@ export default new Vuex.Store({
         .then(res => res.json())
         .then(data => {
           context.commit("setEvent", data);
-          console.log(context.state.event);
 
         })
         .catch(error => { console.log(error) })
