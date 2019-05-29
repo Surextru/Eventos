@@ -46,6 +46,9 @@
 </template>
 
 <script>
+/* eslint-disable */
+import firebase from "firebase";
+
 export default {
   data() {
     return {

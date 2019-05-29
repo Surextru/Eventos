@@ -9,7 +9,6 @@ export default new Vuex.Store({
     event: null,
     search: "",
     idEvent: null,
-    username: "",
     email: "",
   },
   getters: {
@@ -28,9 +27,6 @@ export default new Vuex.Store({
     getLoading(state) {
       return state.loading
     },
-    getUsername(state) {
-      return state.username
-    },
     getEmail(state) {
       return state.email
     }
@@ -47,9 +43,6 @@ export default new Vuex.Store({
     },
     setIdEvent(state, payload) {
       state.idEvent = payload
-    },
-    setUsername(state, payload) {
-      state.username = payload
     },
     setEmail(state, payload) {
       state.email = payload
