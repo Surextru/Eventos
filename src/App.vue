@@ -3,7 +3,8 @@
     <v-toolbar app class="teal">
       <v-toolbar-side-icon class="white--text" @click="abrir"></v-toolbar-side-icon>
       <v-toolbar-title class="headline text-uppercase">
-        <span class="white--text">Title</span>
+        <span class="white--text" v-if="activo == true">Hi, {{name}}</span>
+        <span class="white--text" v-if="activo == false">Welcome</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-items>
@@ -75,7 +76,9 @@ export default {
   data() {
     return {
       activo: false,
-      drawer: false
+      drawer: false,
+      name: "",
+      dialog: false
     };
   },
 
@@ -90,7 +93,9 @@ export default {
       firebase
         .auth()
         .signOut()
-        .then(() => this.cambio())
+        .then(() => {
+          this.cambio();
+        })
         .catch(error => {
           console.log(error);
         });
@@ -99,14 +104,14 @@ export default {
       firebase.auth().onAuthStateChanged(user => {
         if (user) {
           // User is signed in.
-          var displayName = user.displayName;
+          this.name = user.displayName;
           var email = user.email;
           var emailVerified = user.emailVerified;
           var photoURL = user.photoURL;
           var isAnonymous = user.isAnonymous;
           var uid = user.uid;
           var providerData = user.providerData;
-          console.log(user);
+          console.log(user.displayName);
           this.cambio();
           // ...
         } else {
@@ -114,6 +119,14 @@ export default {
           // ...
         }
       });
+    },
+    cogerUsuario() {
+      var user = firebase.auth().currentUser;
+
+      if (user != null) {
+        this.name = user.displayName;
+        console.log(this.name);
+      }
     }
   },
   created() {

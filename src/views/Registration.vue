@@ -6,7 +6,7 @@
           <!-- registrarse por cuenta propia  -->
           <v-layout justify-center xs6>
             <v-form ref="form" v-model="valid" lazy-validation>
-              <v-text-field v-model="user" :rules="userRules" label="usuario" required></v-text-field>
+              <v-text-field v-model="user" :rules="userRules" label="Usuario" required></v-text-field>
 
               <v-text-field v-model="email" :rules="emailRules" label="E-mail" required></v-text-field>
 
@@ -95,6 +95,10 @@ export default {
       firebase
         .auth()
         .createUserWithEmailAndPassword(this.email, this.password)
+        .then(() => {
+          console.log("email y contraseña guardados correctamente.");
+          this.nombreUsuario();
+        })
         .catch(function(error) {
           // Handle Errors here.
           var errorCode = error.code;
@@ -103,6 +107,24 @@ export default {
 
           console.log(errorCode);
           console.log(errorMessage);
+        });
+    },
+    nombreUsuario() {
+      var user = firebase.auth().currentUser;
+
+      user
+        .updateProfile({
+          displayName: this.user,
+          photoURL: null
+        })
+        .then(() => {
+          console.log("nombre de usuario guardado correctamente.");
+          console.log(displayName);
+          // Update successful.
+        })
+        .catch(error => {
+          console.log(this.error);
+          // An error happened.
         });
     }
   }

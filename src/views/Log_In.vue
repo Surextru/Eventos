@@ -18,18 +18,25 @@
         </v-card>
       </v-flex>
     </v-layout>
+    <v-dialog v-model="dialog">
+      <v-card>
+        <v-card-title>Sesión iniciada.</v-card-title>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
 <script>
 /* eslint-disable */
 import firebase from "firebase";
+import { setTimeout } from "timers";
 export default {
   data() {
     return {
       email: "",
       password: "",
-      show: false
+      show: false,
+      dialog: false
     };
   },
   //Acceso de usuarios existentes
@@ -39,7 +46,10 @@ export default {
       firebase
         .auth()
         .signInWithEmailAndPassword(this.email, this.password)
-        .then(() => this.$router.push("/"))
+        .then(() => {
+          setTimeout(() => (this.dialog = true), 3000);
+          this.$router.push("/");
+        })
         .catch(error => {
           // Handle Errors here.
           var errorCode = error.code;
