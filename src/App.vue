@@ -3,14 +3,9 @@
     <v-toolbar app class="teal">
       <v-toolbar-side-icon class="white--text" @click="abrir"></v-toolbar-side-icon>
       <v-toolbar-title class="headline text-uppercase">
-        <span class="white--text" v-if="activo == true">Hi, {{name}}</span>
-        <span class="white--text" v-if="activo == false">Welcome</span>
+        <span class="white--text">Eventacos!</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-toolbar-items>
-        <v-btn class="white--text" to="/" flat>Home</v-btn>
-        <v-btn class="white--text" v-if="activo" @click="logout" flat>Logout</v-btn>
-      </v-toolbar-items>
     </v-toolbar>
 
     <v-navigation-drawer v-model="drawer" app class="teal">
@@ -23,15 +18,21 @@
 
             <v-divider></v-divider>
 
+            <v-list-tile avatar to="/">
+              <v-list-tile-content>
+                <v-list-tile-title class="white--text">Inicio</v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+
             <v-list-tile avatar to="/log_in">
               <v-list-tile-content>
-                <v-list-tile-title class="white--text">Log in</v-list-tile-title>
+                <v-list-tile-title class="white--text">Inicia Sesión</v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
 
             <v-list-tile avatar to="/registration">
               <v-list-tile-content>
-                <v-list-tile-title class="white--text">Registration</v-list-tile-title>
+                <v-list-tile-title class="white--text">Regístrate</v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
           </v-list>
@@ -45,9 +46,15 @@
               <h1>General</h1>
             </v-subheader>
 
+            <v-list-tile avatar to="/">
+              <v-list-tile-content>
+                <v-list-tile-title class="white--text">Inicio</v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+
             <v-list-tile avatar to="/my_events">
               <v-list-tile-content>
-                <v-list-tile-title class="white--text">My Events</v-list-tile-title>
+                <v-list-tile-title class="white--text">Mis Eventos</v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
 
@@ -56,10 +63,22 @@
                 <v-list-tile-title class="white--text">Chat</v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
+
+            <v-list-tile avatar @click="logout">
+              <v-list-tile-content>
+                <v-list-tile-title class="white--text">Cerrar Sesión</v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
           </v-list>
         </v-flex>
       </v-layout>
     </v-navigation-drawer>
+
+    <v-dialog v-model="dialog" justify-center>
+      <v-card height="60px">
+        <v-card-text class="text-xs-center">Sesión cerrada!</v-card-text>
+      </v-card>
+    </v-dialog>
 
     <v-content class="main">
       <router-view/>
@@ -70,6 +89,7 @@
 <script>
 /* eslint-disable */
 import firebase from "firebase";
+import { setTimeout } from "timers";
 export default {
   name: "App",
   components: {},
@@ -89,12 +109,19 @@ export default {
     abrir() {
       this.drawer = !this.drawer;
     },
+    dialogChange() {
+      this.dialog = !this.dialog;
+    },
     logout() {
       firebase
         .auth()
         .signOut()
         .then(() => {
+          this.dialogChange();
+          setTimeout(() => this.dialogChange(), 2000);
           this.cambio();
+          setTimeout(() => location.reload(), 2000);
+          setTimeout(() => this.$router.push("/"), 2000);
         })
         .catch(error => {
           console.log(error);
@@ -111,7 +138,6 @@ export default {
           var isAnonymous = user.isAnonymous;
           var uid = user.uid;
           var providerData = user.providerData;
-          console.log(user.displayName);
           this.cambio();
           // ...
         } else {
@@ -125,7 +151,6 @@ export default {
 
       if (user != null) {
         this.name = user.displayName;
-        console.log(this.name);
       }
     }
   },

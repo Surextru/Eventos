@@ -19,19 +19,19 @@
               ></v-text-field>
 
               <v-layout>
-                <v-btn :disabled="!valid" color="success" @click="registrar">Validate</v-btn>
+                <v-btn :disabled="!valid" color="success" @click="registrar">Validar</v-btn>
 
-                <v-btn color="error" @click="reset">Reset Form</v-btn>
+                <v-btn color="error" @click="reset">Resetear Formulario</v-btn>
               </v-layout>
               <v-layout>
-                <v-btn color="warning" @click="resetValidation">Reset Validation</v-btn>
+                <v-btn color="warning" @click="resetValidation">Resetear Validació</v-btn>
               </v-layout>
             </v-form>
           </v-layout>
-          <!-- registrarse por google -->
           <v-layout justify-center>
-            <v-btn @click="login">Google Registration</v-btn>
+            <v-btn to="/log_in">Ya tienes cuenta?</v-btn>
           </v-layout>
+          <!-- registrarse por google -->
         </v-card>
       </v-flex>
     </v-layout>
@@ -78,33 +78,18 @@ export default {
     resetValidation() {
       this.$refs.form.resetValidation();
     },
-    login() {
-      let provider = new firebase.auth.GoogleAuthProvider();
-      firebase
-        .auth()
-        .signInWithPopup(provider)
-        .then(function(result) {
-          // This gives you a Google Access Token. You can use it to access the Google API.
-          var token = result.credential.accessToken;
-          // The signed-in user info.
-          var user = result.user;
-          // ...
-        });
-    },
     registrar() {
       firebase
         .auth()
         .createUserWithEmailAndPassword(this.email, this.password)
         .then(() => {
-          console.log("email y contraseña guardados correctamente.");
+          alert("Registro realizado correctamente");
           this.nombreUsuario();
         })
-        .catch(function(error) {
-          // Handle Errors here.
+        .catch(error => {
           var errorCode = error.code;
           var errorMessage = error.message;
-          // ...
-
+          this.$router.push("/registration");
           console.log(errorCode);
           console.log(errorMessage);
         });
@@ -119,12 +104,9 @@ export default {
         })
         .then(() => {
           console.log("nombre de usuario guardado correctamente.");
-          console.log(displayName);
-          // Update successful.
         })
         .catch(error => {
           console.log(this.error);
-          // An error happened.
         });
     }
   }

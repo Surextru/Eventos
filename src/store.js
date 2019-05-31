@@ -10,6 +10,7 @@ export default new Vuex.Store({
     search: "",
     idEvent: null,
     email: "",
+    error: null
   },
   getters: {
     getArtist(state) {
@@ -29,6 +30,9 @@ export default new Vuex.Store({
     },
     getEmail(state) {
       return state.email
+    },
+    getError(state) {
+      return state.error
     }
   },
   mutations: {
@@ -46,6 +50,9 @@ export default new Vuex.Store({
     },
     setEmail(state, payload) {
       state.email = payload
+    },
+    setError(state, payload) {
+      state.error = payload
     }
   },
   actions: {
@@ -55,7 +62,9 @@ export default new Vuex.Store({
         .then(data => {
           context.commit("setArtist", data);
         })
-        .catch(error => { console.log(error) })
+        .catch(error => {
+          context.commit("setError", error);
+        })
     },
     getEventData(context) {
       fetch("https://rest.bandsintown.com/artists/" + context.getters.getSearch + "/events?app_id=f711a497d2b27b1b9bc0626c3c6737cc")
@@ -64,7 +73,7 @@ export default new Vuex.Store({
           context.commit("setEvent", data);
 
         })
-        .catch(error => { console.log(error) })
+        .catch()
     },
   }
 });

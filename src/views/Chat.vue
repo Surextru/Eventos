@@ -1,25 +1,27 @@
 <template>
   <v-container>
-    <v-layout justify-center>
-      <h2>Welcome to the Chat!</h2>
+    <v-layout v-if="mensajes == null" justify-center>
+      <v-btn @click="getMessage">chat</v-btn>
     </v-layout>
 
-    <v-layout row wrap>
-      <v-flex xs12>
-        <v-card class="white" v-for="(mensaje,key) in mensajes" :key="mensaje[key]">
-          <v-card-title>
-            <p>{{mensaje.nombre}}</p>
-          </v-card-title>
-          <v-card-text>
-            <p>{{mensaje.mensaje}}</p>
-          </v-card-text>
-        </v-card>
-      </v-flex>
+    <v-layout v-if="mensajes != null" justify-center row wrap>
+      <v-card class="pestañita" v-for="(mensaje,key) in mensajes" :key="mensaje[key]">
+        <v-layout justify-end v-if="mensaje.nombre == user" class="propiouser">
+          <v-flex xs7 offset-xs5 offset-md2 offset-lg5>
+            <p class="text-xs-right">{{mensaje.mensaje}}</p>
+          </v-flex>
+        </v-layout>
+
+        <v-layout xs6 row wrap v-else class="otrosser">
+          <p>{{mensaje.nombre}}</p>
+          <p>{{mensaje.mensaje}}</p>
+        </v-layout>
+      </v-card>
     </v-layout>
 
-    <v-layout row wrap>
+    <v-layout v-if="mensajes != null" row wrap>
       <v-text-field v-model="texto" placeholder="Escribe algo..."></v-text-field>
-      <v-btn @click="sendMessage">Sumbit</v-btn>
+      <v-btn @click="sendMessage" xs12 pa-0>Sumbit</v-btn>
     </v-layout>
   </v-container>
 </template>
@@ -31,7 +33,7 @@ export default {
   data() {
     return {
       texto: "",
-      mensajes: []
+      mensajes: null
     };
   },
   methods: {
@@ -47,9 +49,7 @@ export default {
         .database()
         .ref("chat")
         .push(messageToSend);
-    }
-  },
-  computed: {
+    },
     getMessage() {
       return firebase
         .database()
@@ -58,7 +58,9 @@ export default {
           this.mensajes = data.val();
           console.log(this.mensajes);
         });
-    },
+    }
+  },
+  computed: {
     user() {
       return firebase.auth().currentUser.displayName;
     }
@@ -70,5 +72,17 @@ export default {
 .box {
   width: 350px;
   height: 530px;
+}
+.propiouser {
+  background: green;
+}
+.otrosser {
+  background: grey;
+}
+.mensaje_usuario_propio {
+  display: flex;
+}
+.pestañita {
+  width: 250px;
 }
 </style>
