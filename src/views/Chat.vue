@@ -4,7 +4,7 @@
       <h2>Chat Rico rico!</h2>
     </v-layout>
     <v-layout xs6 v-if="mensajes != null" justify-center row>
-      <v-flex class="container">
+      <v-flex >
         <v-layout v-for="(mensaje,key) in mensajes" :key="mensaje[key]">
           <v-flex>
             <v-layout justify-end v-if="mensaje.nombre == user" class="propiouser">
@@ -104,8 +104,5 @@ export default {
 }
 .pestañita {
   width: 250px;
-}
-.container {
-  background: #bdbdbd;
 }
 </style>
