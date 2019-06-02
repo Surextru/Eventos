@@ -52,12 +52,6 @@
               </v-list-tile-content>
             </v-list-tile>
 
-            <v-list-tile avatar to="/my_events">
-              <v-list-tile-content>
-                <v-list-tile-title class="white--text">Mis Eventos</v-list-tile-title>
-              </v-list-tile-content>
-            </v-list-tile>
-
             <v-list-tile avatar to="/chat">
               <v-list-tile-content>
                 <v-list-tile-title class="white--text">Chat</v-list-tile-title>

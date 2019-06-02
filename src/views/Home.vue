@@ -1,7 +1,7 @@
 <template>
   <v-container fluid xs12>
     <v-layout justify-center>
-      <h1>Bienvenido {{name}}</h1>
+      <h1>Bienvenidx {{name}}</h1>
     </v-layout>
     <v-layout row wrap justify-center>
       <input

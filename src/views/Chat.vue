@@ -1,27 +1,34 @@
 <template>
   <v-container>
-    <v-layout v-if="mensajes == null" justify-center>
-      <v-btn @click="getMessage">chat</v-btn>
+    <v-layout justify-center>
+      <h2>Chat Rico rico!</h2>
     </v-layout>
-
-    <v-layout v-if="mensajes != null" justify-center row wrap>
-      <v-card class="pestañita" v-for="(mensaje,key) in mensajes" :key="mensaje[key]">
-        <v-layout justify-end v-if="mensaje.nombre == user" class="propiouser">
-          <v-flex xs7 offset-xs5 offset-md2 offset-lg5>
-            <p class="text-xs-right">{{mensaje.mensaje}}</p>
+    <v-layout xs6 v-if="mensajes != null" justify-center row>
+      <v-flex class="container">
+        <v-layout v-for="(mensaje,key) in mensajes" :key="mensaje[key]">
+          <v-flex>
+            <v-layout justify-end v-if="mensaje.nombre == user" class="propiouser">
+              <v-flex offset-xs5 offset-md2 offset-lg5>
+                <p pr-3 mr-3 class="text-xs-right">{{mensaje.mensaje}}</p>
+              </v-flex>
+            </v-layout>
+            <v-layout justify-start v-else class="otrosser">
+              <v-flex>
+                <h3>{{mensaje.nombre}}</h3>
+                <p>{{mensaje.mensaje}}</p>
+              </v-flex>
+            </v-layout>
           </v-flex>
         </v-layout>
 
-        <v-layout xs6 row wrap v-else class="otrosser">
-          <p>{{mensaje.nombre}}</p>
-          <p>{{mensaje.mensaje}}</p>
+        <v-layout row wrap>
+          <v-text-field @keyup.enter="sendMessage" v-model="texto" placeholder="Escribe algo..."></v-text-field>
+          <v-btn @click="sendMessage" xs12 pa-0>Enviar</v-btn>
         </v-layout>
-      </v-card>
+      </v-flex>
     </v-layout>
-
-    <v-layout v-if="mensajes != null" row wrap>
-      <v-text-field v-model="texto" placeholder="Escribe algo..."></v-text-field>
-      <v-btn @click="sendMessage" xs12 pa-0>Sumbit</v-btn>
+    <v-layout justify-center v-if="mensajes == null ">
+      <p>Loading fucking chat!...</p>
     </v-layout>
   </v-container>
 </template>
@@ -49,6 +56,8 @@ export default {
         .database()
         .ref("chat")
         .push(messageToSend);
+
+      this.texto = "";
     },
     getMessage() {
       return firebase
@@ -64,6 +73,9 @@ export default {
     user() {
       return firebase.auth().currentUser.displayName;
     }
+  },
+  created() {
+    this.getMessage();
   }
 };
 </script>
@@ -74,15 +86,26 @@ export default {
   height: 530px;
 }
 .propiouser {
-  background: green;
+  background: #81c784;
+  padding-right: 2%;
+  margin-top: 1%;
+  padding-top: 1%;
+  border-radius: 10px;
 }
 .otrosser {
-  background: grey;
+  background: #ffe0b2;
+  padding-left: 2%;
+  margin-top: 1%;
+  padding-top: 1%;
+  border-radius: 10px;
 }
 .mensaje_usuario_propio {
   display: flex;
 }
 .pestañita {
   width: 250px;
+}
+.container {
+  background: #bdbdbd;
 }
 </style>

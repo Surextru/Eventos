@@ -5,7 +5,6 @@ import SingleEvent from "./views/SingleEvent.vue";
 import LogIn from "./views/Log_In.vue";
 import Registration from "./views/Registration.vue";
 import Chat from "./views/Chat.vue";
-import MyEvents from "./views/MyEvents.vue";
 
 
 Vue.use(Router);
@@ -39,11 +38,6 @@ export default new Router({
       path: "/chat",
       name: "chat",
       component: Chat
-    },
-    {
-      path: "/my_events",
-      name: "my events",
-      component: MyEvents
     }
 
   ]

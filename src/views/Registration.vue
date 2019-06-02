@@ -35,6 +35,16 @@
         </v-card>
       </v-flex>
     </v-layout>
+    <v-dialog v-model="dialog" justify-center>
+      <v-card height="60px">
+        <v-card-text class="text-xs-center">Registro realizado correctamente</v-card-text>
+      </v-card>
+    </v-dialog>
+    <v-dialog v-model="dialogError" justify-center>
+      <v-card height="60px">
+        <v-card-text class="text-xs-center">Error en el registrar</v-card-text>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
@@ -43,9 +53,12 @@
 <script>
 /* eslint-disable */
 import firebase from "firebase";
+import { setTimeout } from "timers";
 
 export default {
   data: () => ({
+    dialog: false,
+    dialogError: false,
     valid: true,
     user: "",
     userRules: [
@@ -60,12 +73,18 @@ export default {
     password: "",
     passwordRules: [
       v => !!v || "Password is required",
-      v => (v && v.length >= 5) || "Password must be valid"
+      v => (v && v.length >= 6) || "Password must be valid"
     ],
     select: null
   }),
 
   methods: {
+    changeDialog() {
+      this.dialog = !this.dialog;
+    },
+    changeDialogErr() {
+      this.dialogError = !this.dialogError;
+    },
     validate() {
       if (this.$refs.form.validate()) {
         this.snackbar = true;
@@ -83,10 +102,14 @@ export default {
         .auth()
         .createUserWithEmailAndPassword(this.email, this.password)
         .then(() => {
-          alert("Registro realizado correctamente");
           this.nombreUsuario();
+          this.changeDialog();
+          setTimeout(() => this.changeDialog(), 2000);
+          setTimeout(() => this.$router.push("/"), 2000);
         })
         .catch(error => {
+          this.changeDialogErr();
+          setTimeout(() => this.changeDialogErr(), 2000);
           var errorCode = error.code;
           var errorMessage = error.message;
           this.$router.push("/registration");
