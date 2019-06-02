@@ -114,8 +114,8 @@ export default {
           this.dialogChange();
           setTimeout(() => this.dialogChange(), 2000);
           this.cambio();
-          setTimeout(() => location.reload(), 2000);
           setTimeout(() => this.$router.push("/"), 2000);
+          setTimeout(() => location.reload(), 2000);
         })
         .catch(error => {
           console.log(error);
