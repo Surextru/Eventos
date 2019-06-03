@@ -78,7 +78,7 @@ export default {
       this.$store.commit("setSearch", this.search);
       this.$store.dispatch("getArtistData");
       this.$store.dispatch("getEventData");
-      if (this.errorC != null) {
+      if (this.events == null) {
         this.changeError();
         setTimeout(() => this.changeError(), 1000);
       } else {

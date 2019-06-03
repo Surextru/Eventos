@@ -64,6 +64,7 @@ export default new Vuex.Store({
         })
         .catch(error => {
           context.commit("setError", error);
+          console.log(error)
         })
     },
     getEventData(context) {
