@@ -8,6 +8,7 @@
         class="ma-4 text-xs-center"
         v-model="search"
         type="text"
+        @keyup.enter="searchArtist"
         placeholder="Busca a tu grupo preferido"
       >
       <button v-on:click="searchArtist" xs12 pa-0>Busca</button>
@@ -74,10 +75,10 @@ export default {
     changeError() {
       this.dialogError = !this.dialogError;
     },
-    searchArtist() {
+    async searchArtist() {
       this.$store.commit("setSearch", this.search);
-      this.$store.dispatch("getArtistData");
-      this.$store.dispatch("getEventData");
+      await this.$store.dispatch("getArtistData");
+      await this.$store.dispatch("getEventData");
       if (this.events == null) {
         this.changeError();
         setTimeout(() => this.changeError(), 1000);
